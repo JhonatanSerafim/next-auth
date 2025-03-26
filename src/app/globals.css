@@ -1,2 +1,38 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #241E37;
+  --modal: #1C172E;
+  --primary: #8372CC;
+  --primary-hover: #6A5ACD;
+  --text-secondary: rgb(135, 131, 148);
+}
+
+body {
+  background-color: var(--background);
+  color: white;
+}
+
+input {
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  outline: none;
+}
+
+input::placeholder {
+  color: var(--text-secondary);
+}
+
+button {
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
