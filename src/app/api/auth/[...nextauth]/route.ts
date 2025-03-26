@@ -1,7 +1,7 @@
-import NextAuth, { AuthOptions } from "next-auth"
+import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-export const authOptions: AuthOptions = {
+const handler = NextAuth({
   pages: {
     signIn: "/",
   },
@@ -13,42 +13,29 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        console.log("Tentativa de login com:", credentials?.email)
-        
         if(!credentials){
-          console.log("Credenciais não fornecidas")
           return null
         }
 
         if(credentials.email === "nikola@pet.com.br" && credentials.password === "123"){
-          console.log("Login bem sucedido!")
           return {
             id: "1",
             name: "Nikola",
             email: "nikola@pet.com.br"
           }
         }          
-        console.log("Credenciais inválidas")
         return null;
       }
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        console.log("JWT gerado para usuário:", user.email)
-      }
-      return token
-    },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async session({ session, token }) {
-      console.log("Sessão criada para:", session.user?.email)
+      if (session?.user) {
+        session.user.id = token.sub // usando o token.sub como ID do usuário
+      }
       return session
     }
-  },
-  debug: true
-}
-
-const handler = NextAuth(authOptions)
+  }
+})
 
 export { handler as GET, handler as POST }
