@@ -40,6 +40,7 @@ export const authOptions: AuthOptions = {
       }
       return token
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async session({ session, token }) {
       console.log("Sessão criada para:", session.user?.email)
       return session
